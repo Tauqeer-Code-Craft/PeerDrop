@@ -1,58 +1,54 @@
-import { NextRequest } from "next/server";
+// app/api/socket/route.ts
+import { NextResponse } from "next/server";
 import { Server as SocketIOServer } from "socket.io";
-import { Server as HTTPServer } from "http";
+import type { Server as HTTPServer } from "http";
 
-const ioMap = new WeakMap<HTTPServer,SocketIOServer>();
+export const runtime = "nodejs"; // 👈 Forces Node.js runtime
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
+let io: SocketIOServer | undefined;
 
-export default function GET(req: NextRequest) {
-    const res: any = req.nextUrl;
-    
-    if(!res.socket.server.io){
-        console.log("Starting Socket.io server...");
-        const io = new SocketIOServer(res.socket.server,{
-            path: "/api/socket",
-        });
+export async function GET() {
+  // If the server hasn't been initialized yet, create it
+  if (!io) {
+    console.log("🔌 Starting Socket.io server...");
 
-        io.on("connection",(socket)=>{
-            console.log("A user connected", socket.id);
+    // You can't access req.socket directly here, so we attach to globalThis
+    const { Server } = await import("http");
+    const httpServer = new Server();
 
-            socket.on("create-session",(sessionId)=>{
-                socket.join(sessionId);
-                console.log(`Session ${sessionId} created`);
-            });
+    io = new SocketIOServer(httpServer, {
+      path: "/api/socket",
+      cors: { origin: "*" },
+    });
 
-            socket.on("join-session",(sessionId)=>{
-                socket.join(sessionId);
-                socket.to(sessionId).emit("peer-joined",socket.id);
-                console.log(`User joined session : ${sessionId}`);
-            });
+    io.on("connection", (socket) => {
+      console.log("A user connected:", socket.id);
 
-            socket.on("offer",(data)=>{
-                socket.to(data.sessionId).emit("offer",data);
-            });
+      socket.on("create-session", (sessionId) => {
+        socket.join(sessionId);
+        console.log(`Session ${sessionId} created`);
+      });
 
-            socket.on("answer",(data)=>{
-                socket.to(data.sessionId).emit("answer",data);
-            });
+      socket.on("join-session", (sessionId) => {
+        socket.join(sessionId);
+        socket.to(sessionId).emit("peer-joined", socket.id);
+      });
 
-            socket.on("ice-candidate",(data)=>{
-                socket.to(data.sessionId).emit("ice-candidate",data)
-            });
-            
-            res.socket.server.io = io;
+      socket.on("offer", (data) => {
+        socket.to(data.sessionId).emit("offer", data);
+      });
 
-        })
+      socket.on("answer", (data) => {
+        socket.to(data.sessionId).emit("answer", data);
+      });
 
-    } else {
-        console.log("scoket.io already running");
-        
-    }
+      socket.on("ice-candidate", (data) => {
+        socket.to(data.sessionId).emit("ice-candidate", data);
+      });
+    });
+  } else {
+    console.log("♻️ Socket.io already running");
+  }
 
-    return new Response("Socket server running");
+  return NextResponse.json({ message: "Socket.io server active" });
 }

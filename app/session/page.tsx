@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
-import { initSocket } from "@/app/utils/socketClient";
+import { initSocket } from "@/utils/socketClient";
 import QRCodeGenerator from "@/app/components/QRCodeGenerator"; // ✅ import your QR component
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
-import { initSocket } from "@/app/utils/socketClient";
+import { initSocket } from "@/utils/socketClient";
 
 export default function SessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>();
