@@ -24,11 +24,12 @@ export default function SessionHome() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-8 p-4">
-      <Card className="p-6 w-full max-w-md text-center">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">🔗 WebRTC File Sharing</CardTitle>
-        </CardHeader>
+    <div className="min-h-screen bg-gradient-to-b from-white to-slate-800 text-slate-800 flex flex-col items-center px-6 py-10">
+        {/* Header */}
+      <header className="mb-10 text-center">
+        <h1 className="text-4xl font-bold tracking-tight">PeerDrop</h1>
+        <p className="text-slate-500">Fast, private file sharing via WebRTC</p>
+      </header>
 
         <CardContent className="flex flex-col items-center gap-4">
           {!sessionId ? (
@@ -44,7 +45,7 @@ export default function SessionHome() {
               <QRCodeGenerator baseUrl={window.location.origin} slug={sessionId} />
 
               <Button
-                className="w-full bg-green-600 text-white hover:bg-green-700"
+                className="w-full bg-slate-600 text-white hover:bg-slate-700"
                 onClick={() => joinSession(sessionId)}
               >
                 Go to Session
@@ -52,7 +53,6 @@ export default function SessionHome() {
             </>
           )}
         </CardContent>
-      </Card>
     </div>
   );
 }
