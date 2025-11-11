@@ -91,8 +91,8 @@ export default function SessionPage() {
       {connected ? (
         <p className="text-green-600 font-medium">✅ Connected to peer!</p>
       ) : (
-        <ChatInterface />
-        // <p className="text-white-600">Waiting for peer connection...</p>
+        // <ChatInterface />
+        <p className="text-white-600">Waiting for peer connection...</p>
       )}
     </div>
   );
