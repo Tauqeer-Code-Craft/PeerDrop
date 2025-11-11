@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { initSocket } from "@/utils/socketClient";
+import ChatInterface from "../../components/ChatInterface";
 
 export default function SessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>();
@@ -84,12 +85,13 @@ export default function SessionPage() {
   }, [sessionId]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-4 text-center">
+    <div className="flex flex-col bg-gradient-to-b from-white to-slate-800 text-slate-800  items-center justify-center h-screen gap-4 text-center">
       <h1 className="text-2xl font-bold">Session: {sessionId}</h1>
       {connected ? (
         <p className="text-green-600 font-medium">✅ Connected to peer!</p>
       ) : (
-        <p className="text-gray-500">Waiting for peer connection...</p>
+        <ChatInterface />
+        // <p className="text-white-600">Waiting for peer connection...</p>
       )}
     </div>
   );

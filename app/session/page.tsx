@@ -45,7 +45,7 @@ export default function SessionHome() {
               <QRCodeGenerator baseUrl={window.location.origin} slug={sessionId} />
 
               <Button
-                className="w-full bg-slate-600 text-white hover:bg-slate-700"
+                className="w-50 bg-slate-600 text-white hover:bg-slate-700"
                 onClick={() => joinSession(sessionId)}
               >
                 Go to Session
