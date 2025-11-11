@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { Server as SocketIOServer } from "socket.io";
 import type { Server as HTTPServer } from "http";
 
-export const runtime = "nodejs"; // 👈 Forces Node.js runtime
+export const runtime = "nodejs"; 
 
 let io: SocketIOServer | undefined;
 

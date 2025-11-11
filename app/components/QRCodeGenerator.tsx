@@ -23,7 +23,7 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ baseUrl, slug }) => {
 
   useEffect(() => {
     if (slug) {
-      const fullUrl = `${baseUrl}/session/${slug}`;
+      const fullUrl = `${baseUrl}/${slug}`;
       setQrCodeValue(fullUrl);
     }
   }, [baseUrl, slug]);

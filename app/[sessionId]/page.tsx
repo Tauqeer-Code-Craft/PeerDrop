@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { initSocket } from "@/utils/socketClient";
-import ChatInterface from "../../components/ChatInterface";
+import ChatInterface from "../components/ChatInterface";
 import type { Socket } from "socket.io-client";
 
 export default function SessionPage() {
