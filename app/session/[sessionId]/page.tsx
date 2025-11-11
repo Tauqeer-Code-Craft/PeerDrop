@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { initSocket } from "@/utils/socketClient";
 import ChatInterface from "../../components/ChatInterface";
+import type { Socket } from "socket.io-client";
 
 export default function SessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>();
-  const socketRef = useRef<any>(null);
+  const socketRef = useRef<Socket | null>(null);
   const pcRef = useRef<RTCPeerConnection | null>(null);
   const [connected, setConnected] = useState(false);
 
